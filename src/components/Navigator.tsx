@@ -13,7 +13,10 @@ const linkingConfig = {
 
 const Navigator: FunctionComponent = () => (
     <NavigationContainer linking={linkingConfig}>
-        <StackNavigator.Navigator initialRouteName={Screens.NewsFeed}>
+        <StackNavigator.Navigator
+            initialRouteName={Screens.NewsFeed}
+            headerMode="none"
+        >
             <StackNavigator.Screen
                 name={Screens.NewsFeed}
                 component={NewsFeed}

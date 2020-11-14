@@ -3,13 +3,23 @@ import React, {
     useState,
     useEffect,
 } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+    Divider,
+    Layout,
+    TopNavigation,
+    Spinner,
+    List,
+    ListItem,
+} from '@ui-kitten/components';
 
-import { Screens } from '@interfaces';
+import { Screens, FeedItem } from '@interfaces';
 import { AppActions } from '@redux/actions';
 import { feedSelector } from '@redux/selectors';
+import { truncate } from '@utils';
 
 const NewsFeed: FunctionComponent = () => {
     const { navigate } = useNavigation();
@@ -27,27 +37,41 @@ const NewsFeed: FunctionComponent = () => {
         }
     }, [items]);
 
-    const pressHandler = () => navigate(Screens.NewsFeedElement);
+    const pressHandler = () => {
+        navigate(Screens.NewsFeedElement);
+    };
 
-    if (isLoading) {
-        return (
-            <View style={styles.loaderView}>
-                <Text>Loading...</Text>
-            </View>
-        )
-    }
+    const renderItem = ({ item }: { item: FeedItem }) => (
+        <ListItem
+            title={item.title}
+            description={truncate(item.content!, 75)}
+            onPress={pressHandler}
+        />
+    );
+
+    const keyExtractor = (item: FeedItem) => `${item.title}-${item.isoDate}`;
 
     return (
-        <ScrollView
-            style={styles.scrollView}
-            contentContainerStyle={styles.contentContainer}
-        >
-            {items.map((item) => (
-                <Text key={`${item.title}-${item.isoDate}`}>
-                    {item.title}
-                </Text>
-            ))}
-        </ScrollView>
+        <SafeAreaView style={{ flex: 1 }}>
+            <TopNavigation
+                title="Новостная лента"
+                alignment="center"
+            />
+            <Divider />
+            <Layout style={styles.centrify}>
+                {isLoading
+                    ? (<Spinner />)
+                    : (
+                        <List
+                            data={items}
+                            renderItem={renderItem}
+                            keyExtractor={keyExtractor}
+                            ItemSeparatorComponent={Divider}
+                        />
+                    )
+                }
+            </Layout>
+        </SafeAreaView>
     );
 };
 
@@ -61,7 +85,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    loaderView: {
+    centrify: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
