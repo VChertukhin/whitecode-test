@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications';
 
 export const isWeb = () => Platform.OS === 'web';
 
@@ -21,3 +22,23 @@ export const getPushNotificationPermissions = async (): Promise<Permissions.Perm
 
     return finalStatus
 }
+
+export const sendNewsUpdatePushNotification = async (title: string, body: string, image: string): Promise<void> => {
+    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+
+    if (status === Permissions.PermissionStatus.GRANTED) {
+        if (isWeb()) {
+            if ("Notification" in window) {
+                new Notification(title, { body, image });
+            }
+        } else {
+            Notifications.scheduleNotificationAsync({
+                content: {
+                    title,
+                    body,
+                },
+                trigger: null,
+            });
+        }
+    }
+};
