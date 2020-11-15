@@ -26,13 +26,15 @@ const NewsFeedList: FunctionComponent<INewsFeedListProps> = ({ feedItems, style 
         navigate(Screens.NewsFeedElement);
     };
 
+    const fontFamily = isWeb() ? '' : 'normal';
+
     const renderItem = ({ item }: { item: FeedItem }) => (
         <ListItem
             title={item.title}
             description={truncate(item.description, 75)}
             onPress={pressHandler(item)}
-            titleStyle={{ fontFamily: isWeb() ? '' : 'normal' }}
-            descriptionStyle={{ fontFamily: isWeb() ? '' : 'normal' }}
+            titleStyle={{ fontFamily }}
+            descriptionStyle={{ fontFamily }}
         />
     );
 

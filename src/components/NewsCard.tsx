@@ -50,7 +50,12 @@ const NewsCard: FunctionComponent<INewsCardProps> = ({ feedItem }) => {
     )
 
     return (
-        <Card header={() => <CustomHeader imgSrc={coverPhotoURL} title={title} />}>
+        <Card header={() => (
+            <CustomHeader
+                imgSrc={coverPhotoURL}
+                title={title}
+            />
+        )}>
             <Text>
                 {description}
             </Text>
