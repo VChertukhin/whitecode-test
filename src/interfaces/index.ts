@@ -15,6 +15,7 @@ export enum Screens {
 
 export interface IAppState {
     feed: IFeed;
+    openedFeedItem: FeedItem | null;
     networkError: boolean;
 }
 
@@ -23,6 +24,11 @@ export namespace AppActionTypes {
         // update feed in store
         UPDATE = '@FEED/UPDATE',
     }
+
+    export enum OpenedFeedItemActions {
+        // update openedFeedItem in store
+        UPDATE = '@OPENED_FEED_ITEM/UPDATE',
+    }
 };
 
 export namespace AppActionInterfaces {
@@ -30,6 +36,13 @@ export namespace AppActionInterfaces {
         export interface IUpdateFeed {
             type: AppActionTypes.FeedActions.UPDATE;
             payload: IFeed;
+        }
+    }
+
+    export namespace OpenedFeedItemActionsinterfaces {
+        export interface IUpdateOpenedFeedItem {
+            type: AppActionTypes.OpenedFeedItemActions.UPDATE;
+            payload: FeedItem | null;
         }
     }
 }

@@ -1,6 +1,11 @@
 import { combineReducers } from 'redux';
 
-import { IFeed, AppActionTypes, AppActionInterfaces } from '@interfaces';
+import {
+    AppActionTypes,
+    AppActionInterfaces,
+    IFeed,
+    FeedItem,
+} from '@interfaces';
 
 const defaultFeed: IFeed = {
     feed: {},
@@ -10,7 +15,7 @@ const defaultFeed: IFeed = {
 const feedReducer = (
     feedStore = defaultFeed,
     action: AppActionInterfaces.FeedActionsInterfaces.IUpdateFeed,
-) => {
+): IFeed => {
     const { FeedActions } = AppActionTypes;
 
     switch (action.type) {
@@ -21,6 +26,21 @@ const feedReducer = (
     }
 }
 
+const openedFeedItemReducer = (
+    openedFeedItemStore: FeedItem | null = null,
+    action: AppActionInterfaces.OpenedFeedItemActionsinterfaces.IUpdateOpenedFeedItem,
+): FeedItem | null => {
+    const { OpenedFeedItemActions } = AppActionTypes;
+
+    switch (action.type) {
+        case OpenedFeedItemActions.UPDATE:
+            return action.payload;
+        default:
+            return openedFeedItemStore;
+    }
+};
+
 export default combineReducers({
     feed: feedReducer,
+    openedFeedItem: openedFeedItemReducer,
 });

@@ -5,13 +5,15 @@ import {
     AppActionInterfaces,
     AppActionTypes,
     IFeed,
+    FeedItem,
 } from '@interfaces';
 import { NewsServices } from '@services';
 
 export namespace AppActions {
-
     export namespace FeedActions {
-        export const updateFeed = (feed: IFeed): AppActionInterfaces.FeedActionsInterfaces.IUpdateFeed => ({
+        export const updateFeed = (
+            feed: IFeed,
+        ): AppActionInterfaces.FeedActionsInterfaces.IUpdateFeed => ({
             type: AppActionTypes.FeedActions.UPDATE,
             payload: feed,
         });
@@ -33,5 +35,14 @@ export namespace AppActions {
 
             }
         };
+    }
+
+    export namespace OpenedFeedItenActions {
+        export const updateOpenedFeedItem = (
+            openedFeedItem: FeedItem | null,
+        ): AppActionInterfaces.OpenedFeedItemActionsinterfaces.IUpdateOpenedFeedItem => ({
+            type: AppActionTypes.OpenedFeedItemActions.UPDATE,
+            payload: openedFeedItem,
+        })
     }
 }
