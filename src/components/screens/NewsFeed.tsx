@@ -37,7 +37,8 @@ const NewsFeed: FunctionComponent = () => {
         }
     }, [items]);
 
-    const pressHandler = () => {
+    const pressHandler = (feedItem: FeedItem) => () => {
+        dispatch(AppActions.OpenedFeedItenActions.updateOpenedFeedItem(feedItem));
         navigate(Screens.NewsFeedElement);
     };
 
@@ -45,9 +46,9 @@ const NewsFeed: FunctionComponent = () => {
         <ListItem
             title={item.title}
             description={truncate(item.description, 75)}
-            onPress={pressHandler}
-            titleStyle={{ fontFamily: 'normal' }}
-            descriptionStyle={{ fontFamily: 'normal' }}
+            onPress={pressHandler(item)}
+            titleStyle={{ fontFamily: isWeb() ? '' : 'normal' }}
+            descriptionStyle={{ fontFamily: isWeb() ? '' : 'normal' }}
         />
     );
 

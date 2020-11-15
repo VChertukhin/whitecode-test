@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { Screens } from '@interfaces';
-import { NewsFeed } from '@components/screens';
+import { NewsFeed, NewsFeedElement } from '@components/screens';
 
 const StackNavigator = createStackNavigator();
 const linkingConfig = {
@@ -21,9 +21,10 @@ const Navigator: FunctionComponent = () => (
                 name={Screens.NewsFeed}
                 component={NewsFeed}
             />
+
             <StackNavigator.Screen
                 name={Screens.NewsFeedElement}
-                component={() => <Fragment />}
+                component={NewsFeedElement}
             />
         </StackNavigator.Navigator>
     </NavigationContainer>
