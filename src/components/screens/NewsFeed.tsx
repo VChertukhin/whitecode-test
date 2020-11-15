@@ -11,18 +11,14 @@ import {
     Divider,
     Layout,
     TopNavigation,
-    List,
-    ListItem,
 } from '@ui-kitten/components';
 
-import { Screens, FeedItem } from '@interfaces';
 import { AppActions } from '@redux/actions';
 import { feedSelector } from '@redux/selectors';
-import { Loader } from '@components';
-import { isWeb, truncate } from '@utils';
+import { Loader, NewsFeedList } from '@components';
+import { isWeb } from '@utils';
 
 const NewsFeed: FunctionComponent = () => {
-    const { navigate } = useNavigation();
     const [isLoading, setIsLoading] = useState(true);
     const dispatch = useDispatch();
     const { items } = useSelector(feedSelector);
@@ -37,23 +33,6 @@ const NewsFeed: FunctionComponent = () => {
         }
     }, [items]);
 
-    const pressHandler = (feedItem: FeedItem) => () => {
-        dispatch(AppActions.OpenedFeedItenActions.updateOpenedFeedItem(feedItem));
-        navigate(Screens.NewsFeedElement);
-    };
-
-    const renderItem = ({ item }: { item: FeedItem }) => (
-        <ListItem
-            title={item.title}
-            description={truncate(item.description, 75)}
-            onPress={pressHandler(item)}
-            titleStyle={{ fontFamily: isWeb() ? '' : 'normal' }}
-            descriptionStyle={{ fontFamily: isWeb() ? '' : 'normal' }}
-        />
-    );
-
-    const keyExtractor = (item: FeedItem) => `${item.title}-${item.published}`;
-
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <TopNavigation
@@ -67,12 +46,7 @@ const NewsFeed: FunctionComponent = () => {
                 ? (<Loader />)
                 : (
                     <Layout style={isWeb() ? styles.centrify : {}}>
-                        <List
-                            data={items}
-                            renderItem={renderItem}
-                            keyExtractor={keyExtractor}
-                            ItemSeparatorComponent={Divider}
-                        />
+                        <NewsFeedList feedItems={items} />
                     </Layout>
                 )
             }

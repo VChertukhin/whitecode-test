@@ -6,5 +6,5 @@ export const isWeb = () => Platform.OS === 'web';
 export const truncate = (str: string, maxLen: number) => (
     str.length <= maxLen
         ? str
-        : `${str.substr(0, str.lastIndexOf('', maxLen - 3))}...`
+        : `${str.substr(0, str.lastIndexOf(' ', maxLen - 3))}...`
 );
