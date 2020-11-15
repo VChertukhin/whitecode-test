@@ -1,4 +1,6 @@
-export const isWeb = () => typeof window !== 'undefined';
+import { Platform } from 'react-native';
+
+export const isWeb = () => Platform.OS === 'web';
 
 /* cut sting to max length without touching words, adds ... if needed */
 export const truncate = (str: string, maxLen: number) => (
