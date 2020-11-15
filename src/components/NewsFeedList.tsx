@@ -10,7 +10,7 @@ import {
 
 import { Screens, FeedItem } from '@interfaces';
 import { AppActions } from '@redux/actions';
-import { isWeb, truncate } from '@utils';
+import { isWeb, truncate, isStringEmpty } from '@utils';
 
 interface INewsFeedListProps {
     feedItems: FeedItem[];
@@ -28,15 +28,25 @@ const NewsFeedList: FunctionComponent<INewsFeedListProps> = ({ feedItems, style 
 
     const fontFamily = isWeb() ? '' : 'normal';
 
-    const renderItem = ({ item }: { item: FeedItem }) => (
-        <ListItem
-            title={item.title}
-            description={truncate(item.description, 75)}
-            onPress={pressHandler(item)}
-            titleStyle={{ fontFamily }}
-            descriptionStyle={{ fontFamily }}
-        />
-    );
+    const renderItem = ({ item }: { item: FeedItem }) => {
+        const description = truncate(item.description, 75);
+        // follow lenta.ru format
+        const emptyCaseStr = '\n\xa0\xa0\xa0\xa0Подробнее...';
+
+        return (
+            <ListItem
+                title={item.title}
+                description={
+                    isStringEmpty(description)
+                        ? emptyCaseStr
+                        : description
+                }
+                onPress={pressHandler(item)}
+                titleStyle={{ fontFamily }}
+                descriptionStyle={{ fontFamily }}
+            />
+        );
+    };
 
     const keyExtractor = (item: FeedItem) => `${item.title}-${item.published}`;
 

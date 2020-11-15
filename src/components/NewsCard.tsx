@@ -7,6 +7,7 @@ import {
 } from '@ui-kitten/components';
 
 import { FeedItem } from '@interfaces';
+import { isStringEmpty } from '@utils';
 
 const BackIcon = (style: ViewStyle) => (
     <Icon {...style} name='arrow-back' />
@@ -57,7 +58,7 @@ const NewsCard: FunctionComponent<INewsCardProps> = ({ feedItem }) => {
             />
         )}>
             <Text>
-                {description}
+                {isStringEmpty(description) ? 'Подробнее...' : description}
             </Text>
         </Card>
     );

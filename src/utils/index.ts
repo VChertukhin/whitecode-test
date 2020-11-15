@@ -11,6 +11,8 @@ export const truncate = (str: string, maxLen: number) => (
         : `${str.substr(0, str.lastIndexOf(' ', maxLen - 3))}...`
 );
 
+export const isStringEmpty = (s: string) => /^(\s|\n)+$/.test(s);
+
 export const getPushNotificationPermissions = async (): Promise<Permissions.PermissionStatus> => {
     const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
     let finalStatus = existingStatus;
