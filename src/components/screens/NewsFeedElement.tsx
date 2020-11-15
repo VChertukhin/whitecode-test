@@ -32,7 +32,7 @@ const BackIcon = (style: ViewStyle) => (
 );
 
 const NewsFeedElement: FunctionComponent = () => {
-    const navigate = useNavigation();
+    const { navigate } = useNavigation();
     const openedFeedItem = useSelector(openedFeedItemSelector);
     // redirect back to news if no specified
     useEffect(() => {
