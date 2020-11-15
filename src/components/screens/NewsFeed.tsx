@@ -19,7 +19,7 @@ import {
 import { Screens, FeedItem } from '@interfaces';
 import { AppActions } from '@redux/actions';
 import { feedSelector } from '@redux/selectors';
-import { truncate } from '@utils';
+import { isWeb, truncate } from '@utils';
 
 const NewsFeed: FunctionComponent = () => {
     const { navigate } = useNavigation();
@@ -46,6 +46,8 @@ const NewsFeed: FunctionComponent = () => {
             title={item.title}
             description={truncate(item.description, 75)}
             onPress={pressHandler}
+            titleStyle={{ fontFamily: 'normal' }}
+            descriptionStyle={{ fontFamily: 'normal' }}
         />
     );
 
@@ -58,7 +60,7 @@ const NewsFeed: FunctionComponent = () => {
                 alignment="center"
             />
             <Divider />
-            <Layout style={styles.centrify}>
+            <Layout style={isWeb() ? styles.centrify : {}}>
                 {isLoading
                     ? (<Spinner size="giant" />)
                     : (
