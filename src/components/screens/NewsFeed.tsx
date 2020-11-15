@@ -11,7 +11,6 @@ import {
     Divider,
     Layout,
     TopNavigation,
-    Spinner,
     List,
     ListItem,
 } from '@ui-kitten/components';
@@ -19,6 +18,7 @@ import {
 import { Screens, FeedItem } from '@interfaces';
 import { AppActions } from '@redux/actions';
 import { feedSelector } from '@redux/selectors';
+import { Loader } from '@components';
 import { isWeb, truncate } from '@utils';
 
 const NewsFeed: FunctionComponent = () => {
@@ -59,20 +59,22 @@ const NewsFeed: FunctionComponent = () => {
                 title="Новостная лента"
                 alignment="center"
             />
+
             <Divider />
-            <Layout style={isWeb() ? styles.centrify : {}}>
-                {isLoading
-                    ? (<Spinner size="giant" />)
-                    : (
+
+            {isLoading
+                ? (<Loader />)
+                : (
+                    <Layout style={isWeb() ? styles.centrify : {}}>
                         <List
                             data={items}
                             renderItem={renderItem}
                             keyExtractor={keyExtractor}
                             ItemSeparatorComponent={Divider}
                         />
-                    )
-                }
-            </Layout>
+                    </Layout>
+                )
+            }
         </SafeAreaView>
     );
 };
@@ -92,6 +94,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     }
-})
+});
 
 export default NewsFeed;
