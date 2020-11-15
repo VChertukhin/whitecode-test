@@ -19,7 +19,6 @@ import {
 
 import { Screens } from '@interfaces';
 import {
-    openedFeedItemSelector,
     getFeedItemByTitleSelector,
     getTaggedFeedItemsSelector,
 } from '@redux/selectors';

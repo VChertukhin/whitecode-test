@@ -56,8 +56,6 @@ const NewsFeed: FunctionComponent = () => {
                 ? (<Loader />)
                 : (
                     <Layout style={isWeb() ? styles.centrify : {}}>
-                        <NewsFeedList feedItems={items} />
-
                         {openedFeedItem && (
                             <Card header={() => (
                                 <Layout>
@@ -73,6 +71,8 @@ const NewsFeed: FunctionComponent = () => {
                                 </Text>
                             </Card>
                         )}
+
+                        <NewsFeedList feedItems={items} />
                     </Layout>
                 )
             }
