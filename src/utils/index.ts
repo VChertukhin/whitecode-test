@@ -36,7 +36,7 @@ export const sendNewsUpdatePushNotification = async (
     if (status === Permissions.PermissionStatus.GRANTED) {
         if (isWeb()) {
             if ("Notification" in window) {
-                const notifier = new Notification(title, { body, image });
+                const notifier = new Notification(title, { body, image, icon: image });
                 if (notificationClickHandler) {
                     notifier.onclick = notificationClickHandler;
                 }
@@ -47,7 +47,10 @@ export const sendNewsUpdatePushNotification = async (
                     title,
                     body,
                 },
-                trigger: null,
+                trigger: {
+                    seconds: 0,
+                    repeats: false,
+                },
             });
         }
     }

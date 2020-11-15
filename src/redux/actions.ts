@@ -68,9 +68,17 @@ export namespace AppActions {
                             ? currItems[0].title
                             : ''
                     );
-                    prevFirstTitle !== currFirstTitle && currItems.length !== 0
-                    if (true) {
-                        const item = currItems[0];
+
+                    if (currItems.length !== 0) {
+                        // shows oldest by default
+                        let item = currItems[currItems.length - 1];
+
+                        if (prevFirstTitle !== currFirstTitle) {
+                            // show newest if recieved update
+                            item = currItems[0];
+
+                        }
+
                         const { title, description, enclosures } = item;
 
                         sendNewsUpdatePushNotification(
