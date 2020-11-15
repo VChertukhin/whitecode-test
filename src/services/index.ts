@@ -1,4 +1,4 @@
-import Parser from 'rss-parser';
+import * as RSSParser from 'react-native-rss-parser';
 
 import { IFeed, IFetchNewsFeedServiceResponse } from '@interfaces';
 
@@ -11,12 +11,18 @@ export namespace NewsServices {
         // we have to overcome CORS on lenta.ru :)
         const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
         const RSS_FEED_URL = 'https://lenta.ru/rss/news';
-        const parser = new Parser();
-        try {
-            const feed = await parser.parseURL(
-                CORS_PROXY + RSS_FEED_URL
-            ) as IFeed;
 
+
+        try {
+            const res = await fetch(CORS_PROXY + RSS_FEED_URL);
+
+            if (!res.ok) {
+                throw Error('NetworkError');
+            }
+
+            const rawFeed = await res.text();
+            const feed = await RSSParser.parse(rawFeed) as IFeed;
+            console.log(feed)
             return {
                 newsfeed: feed,
                 error: false,
@@ -24,7 +30,6 @@ export namespace NewsServices {
         } catch (e) {
             return {
                 newsfeed: {
-                    feed: {},
                     items: [],
                 },
                 error: true,

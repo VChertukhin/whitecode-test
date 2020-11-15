@@ -12,6 +12,7 @@
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^5.8.9",
     "@react-navigation/stack": "^5.12.6",
+    "@types/react-native-rss-parser": "^1.4.0",
     "@ui-kitten/components": "4.4.1",
     "@ui-kitten/eva-icons": "4.4.1",
     "babel-plugin-module-resolver": "^4.0.0",
@@ -23,6 +24,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-reanimated": "~1.13.0",
+    "react-native-rss-parser": "^1.5.1",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
     "react-native-svg": "12.1.0",
@@ -31,8 +33,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "remote-redux-devtools": "^0.5.16",
-    "rss-parser": "^3.9.0"
+    "remote-redux-devtools": "^0.5.16"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

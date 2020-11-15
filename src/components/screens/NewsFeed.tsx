@@ -44,12 +44,12 @@ const NewsFeed: FunctionComponent = () => {
     const renderItem = ({ item }: { item: FeedItem }) => (
         <ListItem
             title={item.title}
-            description={truncate(item.content!, 75)}
+            description={truncate(item.description, 75)}
             onPress={pressHandler}
         />
     );
 
-    const keyExtractor = (item: FeedItem) => `${item.title}-${item.isoDate}`;
+    const keyExtractor = (item: FeedItem) => `${item.title}-${item.published}`;
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -60,7 +60,7 @@ const NewsFeed: FunctionComponent = () => {
             <Divider />
             <Layout style={styles.centrify}>
                 {isLoading
-                    ? (<Spinner />)
+                    ? (<Spinner size="giant" />)
                     : (
                         <List
                             data={items}

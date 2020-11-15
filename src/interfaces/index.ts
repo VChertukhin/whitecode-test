@@ -2,7 +2,7 @@
  * place to put all reusable types, interfaces and constants
  * may be splitted as soon as app will grow bigger
  */
-import { Item } from "rss-parser";
+import { FeedItem as Item } from 'react-native-rss-parser';
 
 export interface IKeyValue {
     [key: string]: any;
@@ -36,8 +36,8 @@ export namespace AppActionInterfaces {
 
 export type FeedItem = Item;
 
+// add to make extra manipulations with feed
 export interface IFeed extends IKeyValue {
-    feed: IKeyValue;
     items: FeedItem[];
 }
 
