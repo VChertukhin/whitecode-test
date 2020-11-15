@@ -1,8 +1,9 @@
 import React, {
     FunctionComponent,
     useEffect,
+    useRef,
 } from 'react';
-import { StyleSheet, ViewStyle } from 'react-native';
+import { StyleSheet, ViewStyle, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -31,8 +32,21 @@ const BackIcon = (style: ViewStyle) => (
 );
 
 const NewsFeedElement: FunctionComponent = () => {
-    const { navigate } = useNavigation();
+    const navigate = useNavigation();
     const openedFeedItem = useSelector(openedFeedItemSelector);
+    // redirect back to news if no specified
+    useEffect(() => {
+        if (!openedFeedItem) {
+            navigate(Screens.NewsFeed);
+        }
+    }, []);
+
+    const scrollRef = useRef<ScrollView>(null);
+
+    // scroll to the top on news change
+    useEffect(() => (
+        scrollRef.current?.scrollTo(0)
+    ), [openedFeedItem]);
 
     const emptyCategory = 'Без категории';
 
@@ -48,19 +62,7 @@ const NewsFeedElement: FunctionComponent = () => {
 
     const taggedFeedItems = useSelector(getTaggedFeedItemsSelector(mainCategory));
 
-    // redirect back to news if no specified
-    useEffect(() => {
-        if (!openedFeedItem) {
-            navigate(Screens.NewsFeed);
-        }
-    }, []);
-
     if (openedFeedItem) {
-        const lauoutStyle = [
-            styles.scrollable,
-            isWeb() ? styles.centrify : { flex: 1 },
-        ]
-
         const handleNavigationAction = () => navigate(Screens.NewsFeed);
 
         const backControl = () => (
@@ -79,27 +81,29 @@ const NewsFeedElement: FunctionComponent = () => {
 
                 <Divider />
 
-                <Layout style={lauoutStyle}>
-                    <Layout style={{ maxWidth: 600 }}>
-                        <NewsCard feedItem={openedFeedItem} />
+                <ScrollView ref={scrollRef} style={{ backgroundColor: '#FFFFFF' }}>
+                    <Layout style={isWeb() ? styles.centrify : { flex: 1 }}>
+                        <Layout style={{ maxWidth: 600 }}>
+                            <NewsCard feedItem={openedFeedItem} />
+                        </Layout>
+
+                        {(mainCategory !== emptyCategory) && (
+                            <>
+
+                                <Text style={{ alignSelf: 'center' }}>
+                                    {`Так же в категории ${mainCategory}`}
+                                </Text>
+
+                                <Divider />
+
+                                <NewsFeedList
+                                    feedItems={taggedFeedItems}
+                                    style={{ overflow: 'visible', maxHeight: 300 }}
+                                />
+                            </>
+                        )}
                     </Layout>
-
-                    {(mainCategory !== emptyCategory) && (
-                        <>
-
-                            <Text style={{ alignSelf: 'center' }}>
-                                {`Так же в категории ${mainCategory}`}
-                            </Text>
-
-                            <Divider />
-
-                            <NewsFeedList
-                                feedItems={taggedFeedItems}
-                                style={{ overflow: 'visible', maxHeight: 300 }}
-                            />
-                        </>
-                    )}
-                </Layout>
+                </ScrollView>
             </SafeAreaView>
         );
     }
