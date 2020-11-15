@@ -58,3 +58,5 @@ export interface IFetchNewsFeedServiceResponse {
     newsfeed: IFeed;
     error: boolean;
 }
+
+export type GetNotificationClickHandler = (item: FeedItem) => () => void;

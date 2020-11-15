@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { Screens } from '@interfaces';
+import { NotificationsRunner } from '@components';
 import { NewsFeed, NewsFeedElement } from '@components/screens';
 
 const StackNavigator = createStackNavigator();

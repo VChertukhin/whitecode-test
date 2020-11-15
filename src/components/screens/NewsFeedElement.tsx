@@ -25,6 +25,7 @@ import {
 import {
     NewsCard,
     NewsFeedList,
+    NotificationsRunner,
 } from '@components'
 import { isWeb } from '@utils';
 
@@ -80,6 +81,8 @@ const NewsFeedElement: FunctionComponent<INewsFeedElement> = ({ route }) => {
 
         return (
             <SafeAreaView style={{ flex: 1 }}>
+                <NotificationsRunner />
+
                 <TopNavigation
                     alignment="center"
                     leftControl={backControl()}

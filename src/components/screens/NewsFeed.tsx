@@ -18,7 +18,7 @@ import {
 import { Screens } from '@interfaces';
 import { AppActions } from '@redux/actions';
 import { feedSelector, openedFeedItemSelector } from '@redux/selectors';
-import { Loader, NewsFeedList } from '@components';
+import { Loader, NewsFeedList, NotificationsRunner } from '@components';
 import { isWeb } from '@utils';
 
 const NewsFeed: FunctionComponent = () => {
@@ -45,6 +45,8 @@ const NewsFeed: FunctionComponent = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
+            <NotificationsRunner />
+
             <TopNavigation
                 title="Новостная лента"
                 alignment="center"

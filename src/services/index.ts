@@ -29,7 +29,7 @@ export namespace NewsServices {
 
             const rawFeed = await res.text();
             const feed = await RSSParser.parse(rawFeed) as IFeed;
-            console.log(feed)
+
             return {
                 newsfeed: feed,
                 error: false,

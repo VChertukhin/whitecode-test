@@ -25,13 +25,21 @@ export const getPushNotificationPermissions = async (): Promise<Permissions.Perm
     return finalStatus
 }
 
-export const sendNewsUpdatePushNotification = async (title: string, body: string, image: string): Promise<void> => {
+export const sendNewsUpdatePushNotification = async (
+    title: string,
+    body: string,
+    image: string,
+    notificationClickHandler?: () => void,
+): Promise<void> => {
     const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
 
     if (status === Permissions.PermissionStatus.GRANTED) {
         if (isWeb()) {
             if ("Notification" in window) {
-                new Notification(title, { body, image });
+                const notifier = new Notification(title, { body, image });
+                if (notificationClickHandler) {
+                    notifier.onclick = notificationClickHandler;
+                }
             }
         } else {
             Notifications.scheduleNotificationAsync({
