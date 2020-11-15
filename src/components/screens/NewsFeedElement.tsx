@@ -12,11 +12,18 @@ import {
     Layout,
     TopNavigation,
     TopNavigationAction,
+    Text,
 } from '@ui-kitten/components';
 
 import { Screens } from '@interfaces';
-import { openedFeedItemSelector } from '@redux/selectors';
-import { NewsCard } from '@components'
+import {
+    openedFeedItemSelector,
+    getTaggedFeedItemsSelector,
+} from '@redux/selectors';
+import {
+    NewsCard,
+    NewsFeedList,
+} from '@components'
 import { isWeb } from '@utils';
 
 const BackIcon = (style: ViewStyle) => (
@@ -27,6 +34,20 @@ const NewsFeedElement: FunctionComponent = () => {
     const { navigate } = useNavigation();
     const openedFeedItem = useSelector(openedFeedItemSelector);
 
+    const emptyCategory = 'Без категории';
+
+    const mainCategory: string = (
+        openedFeedItem
+            ? (
+                openedFeedItem.categories.length !== 0
+                    ? (openedFeedItem.categories[0]?.name ?? emptyCategory)
+                    : emptyCategory
+            )
+            : ''
+    );
+
+    const taggedFeedItems = useSelector(getTaggedFeedItemsSelector(mainCategory));
+
     // redirect back to news if no specified
     useEffect(() => {
         if (!openedFeedItem) {
@@ -35,18 +56,10 @@ const NewsFeedElement: FunctionComponent = () => {
     }, []);
 
     if (openedFeedItem) {
-        const { categories } = openedFeedItem;
-
         const lauoutStyle = [
             styles.scrollable,
             isWeb() ? styles.centrify : { flex: 1 },
         ]
-
-        const mainCategory: string = (
-            categories.length !== 0
-                ? (categories[0]?.name ?? 'Без категории')
-                : 'Без Категории'
-        )
 
         const handleNavigationAction = () => navigate(Screens.NewsFeed);
 
@@ -60,7 +73,6 @@ const NewsFeedElement: FunctionComponent = () => {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <TopNavigation
-                    title={`В категории: ${mainCategory}`}
                     alignment="center"
                     leftControl={backControl()}
                 />
@@ -68,7 +80,25 @@ const NewsFeedElement: FunctionComponent = () => {
                 <Divider />
 
                 <Layout style={lauoutStyle}>
-                    <NewsCard feedItem={openedFeedItem} />
+                    <Layout style={{ maxWidth: 600 }}>
+                        <NewsCard feedItem={openedFeedItem} />
+                    </Layout>
+
+                    {(mainCategory !== emptyCategory) && (
+                        <>
+
+                            <Text style={{ alignSelf: 'center' }}>
+                                {`Так же в категории ${mainCategory}`}
+                            </Text>
+
+                            <Divider />
+
+                            <NewsFeedList
+                                feedItems={taggedFeedItems}
+                                style={{ overflow: 'visible', maxHeight: 300 }}
+                            />
+                        </>
+                    )}
                 </Layout>
             </SafeAreaView>
         );

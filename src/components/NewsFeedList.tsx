@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import { ViewStyle } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -13,9 +14,10 @@ import { isWeb, truncate } from '@utils';
 
 interface INewsFeedListProps {
     feedItems: FeedItem[];
+    style?: ViewStyle;
 }
 
-const NewsFeedList: FunctionComponent<INewsFeedListProps> = ({ feedItems }) => {
+const NewsFeedList: FunctionComponent<INewsFeedListProps> = ({ feedItems, style }) => {
     const { navigate } = useNavigation();
     const dispatch = useDispatch();
 
@@ -38,12 +40,17 @@ const NewsFeedList: FunctionComponent<INewsFeedListProps> = ({ feedItems }) => {
 
     return (
         <List
+            style={style}
             data={feedItems}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             ItemSeparatorComponent={Divider}
         />
     );
+};
+
+NewsFeedList.defaultProps = {
+    style: {},
 };
 
 export default NewsFeedList;
