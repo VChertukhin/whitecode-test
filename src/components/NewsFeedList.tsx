@@ -23,7 +23,7 @@ const NewsFeedList: FunctionComponent<INewsFeedListProps> = ({ feedItems, style 
 
     const pressHandler = (feedItem: FeedItem) => () => {
         dispatch(AppActions.OpenedFeedItenActions.updateOpenedFeedItem(feedItem));
-        navigate(Screens.NewsFeedElement);
+        navigate(Screens.NewsFeedElement, { title: feedItem.title });
     };
 
     const fontFamily = isWeb() ? '' : 'normal';

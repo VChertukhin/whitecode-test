@@ -2,10 +2,11 @@ import React, {
     FunctionComponent,
     useEffect,
     useRef,
+    useMemo,
 } from 'react';
 import { StyleSheet, ViewStyle, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, Route } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
     Icon,
@@ -19,6 +20,7 @@ import {
 import { Screens } from '@interfaces';
 import {
     openedFeedItemSelector,
+    getFeedItemByTitleSelector,
     getTaggedFeedItemsSelector,
 } from '@redux/selectors';
 import {
@@ -31,9 +33,14 @@ const BackIcon = (style: ViewStyle) => (
     <Icon {...style} name='arrow-back' />
 );
 
-const NewsFeedElement: FunctionComponent = () => {
+interface INewsFeedElement {
+    route: Route<Screens, { title: string }>;
+}
+
+const NewsFeedElement: FunctionComponent<INewsFeedElement> = ({ route }) => {
     const { navigate } = useNavigation();
-    const openedFeedItem = useSelector(openedFeedItemSelector);
+    const openedFeedItem = useSelector(getFeedItemByTitleSelector(route?.params?.title));
+
     // redirect back to news if no specified
     useEffect(() => {
         if (!openedFeedItem) {
@@ -50,7 +57,7 @@ const NewsFeedElement: FunctionComponent = () => {
 
     const emptyCategory = 'Без категории';
 
-    const mainCategory: string = (
+    const mainCategory: string = useMemo(() => (
         openedFeedItem
             ? (
                 openedFeedItem.categories.length !== 0
@@ -58,7 +65,7 @@ const NewsFeedElement: FunctionComponent = () => {
                     : emptyCategory
             )
             : ''
-    );
+    ), [openedFeedItem]);
 
     const taggedFeedItems = useSelector(getTaggedFeedItemsSelector(mainCategory));
 
@@ -91,7 +98,7 @@ const NewsFeedElement: FunctionComponent = () => {
                             <>
 
                                 <Text style={{ alignSelf: 'center' }}>
-                                    {`Так же в категории ${mainCategory}`}
+                                    {`Так же в категории "${mainCategory}"`}
                                 </Text>
 
                                 <Divider />

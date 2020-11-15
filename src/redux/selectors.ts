@@ -19,3 +19,17 @@ export const getTaggedFeedItemsSelector = (tag: string) => (state: IAppState) =>
 
     return taggedFeedItems;
 };
+
+export const getFeedItemByTitleSelector = (searchTitle: string) => (state: IAppState): FeedItem | null => {
+    const { items } = feedSelector(state);
+
+    let feedItem: FeedItem | null = null;
+
+    items.forEach(item => {
+        if (item.title === searchTitle) {
+            feedItem = item;
+        }
+    });
+
+    return feedItem;
+}

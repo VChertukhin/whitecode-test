@@ -8,20 +8,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
+    Card,
+    Text,
     Divider,
     Layout,
     TopNavigation,
 } from '@ui-kitten/components';
 
+import { Screens } from '@interfaces';
 import { AppActions } from '@redux/actions';
-import { feedSelector } from '@redux/selectors';
+import { feedSelector, openedFeedItemSelector } from '@redux/selectors';
 import { Loader, NewsFeedList } from '@components';
 import { isWeb } from '@utils';
 
 const NewsFeed: FunctionComponent = () => {
+    const { navigate } = useNavigation();
     const [isLoading, setIsLoading] = useState(true);
     const dispatch = useDispatch();
     const { items } = useSelector(feedSelector);
+    const openedFeedItem = useSelector(openedFeedItemSelector);
 
     useEffect(() => {
         dispatch(AppActions.FeedActions.fetchFeed());
@@ -32,6 +37,11 @@ const NewsFeed: FunctionComponent = () => {
             setIsLoading(false);
         }
     }, [items]);
+
+    const recentlyViewedPressHandler = () => navigate(
+        Screens.NewsFeedElement,
+        { title: openedFeedItem?.title },
+    );
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -47,6 +57,22 @@ const NewsFeed: FunctionComponent = () => {
                 : (
                     <Layout style={isWeb() ? styles.centrify : {}}>
                         <NewsFeedList feedItems={items} />
+
+                        {openedFeedItem && (
+                            <Card header={() => (
+                                <Layout>
+                                    <Text style={styles.cardHeaderText}>
+                                        Недавно просмотренное:
+                                    </Text>
+
+                                    <Divider />
+                                </Layout>
+                            )}>
+                                <Text onPress={recentlyViewedPressHandler}>
+                                    {openedFeedItem.title}
+                                </Text>
+                            </Card>
+                        )}
                     </Layout>
                 )
             }
@@ -55,6 +81,11 @@ const NewsFeed: FunctionComponent = () => {
 };
 
 const styles = StyleSheet.create({
+    cardHeaderText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        alignSelf: 'center',
+    },
     scrollView: {
         overflow: 'scroll',
         flex: 1,
