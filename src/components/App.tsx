@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as eva from '@eva-design/eva';
@@ -8,8 +8,13 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 import store from '@redux/store';
 import { Navigator } from '@components';
+import { getPushNotificationPermissions } from '@utils';
 
 const App: FunctionComponent = () => {
+    useEffect(() => {
+        getPushNotificationPermissions();
+    }, []);
+
     return (
         <ReduxProvider store={store}>
             <SafeAreaProvider>
