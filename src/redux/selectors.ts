@@ -33,3 +33,5 @@ export const getFeedItemByTitleSelector = (searchTitle: string) => (state: IAppS
 
     return feedItem;
 }
+
+export const networkErrorSelector = (state: IAppState) => state.networkError;

@@ -40,7 +40,22 @@ const openedFeedItemReducer = (
     }
 };
 
+const networkErrorReducer = (
+    networkErrorStore: boolean = false,
+    action: AppActionInterfaces.NetworkErrorActionsInterfaces.IUpdateNetworkError,
+): boolean => {
+    const { NetworkErrorActions } = AppActionTypes;
+
+    switch (action.type) {
+        case NetworkErrorActions.UPDATE:
+            return action.payload;
+        default:
+            return networkErrorStore;
+    }
+};
+
 export default combineReducers({
     feed: feedReducer,
     openedFeedItem: openedFeedItemReducer,
+    networkError: networkErrorReducer,
 });

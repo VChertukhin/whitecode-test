@@ -6,6 +6,7 @@
 * Notifications system for web and mobile (used cutom solution for web since Expo SKD doesn't support in-browser notifications yet) if you click on it - then you'll be redirected to corresponding news
 ## Extra Features
 * Working with real data (lenta.ru **RSS** feed) with reat-time update
+* Full cycle of network error: separate error state in Redux, error appears on screen
 * Tag-relted news when opening any of news
 * Show last visited news
 ## Some notices

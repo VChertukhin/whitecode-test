@@ -17,7 +17,11 @@ import {
 
 import { Screens } from '@interfaces';
 import { AppActions } from '@redux/actions';
-import { feedSelector, openedFeedItemSelector } from '@redux/selectors';
+import {
+    feedSelector,
+    openedFeedItemSelector,
+    networkErrorSelector,
+} from '@redux/selectors';
 import { Loader, NewsFeedList, NotificationsRunner } from '@components';
 import { isWeb } from '@utils';
 
@@ -27,6 +31,7 @@ const NewsFeed: FunctionComponent = () => {
     const dispatch = useDispatch();
     const { items } = useSelector(feedSelector);
     const openedFeedItem = useSelector(openedFeedItemSelector);
+    const networkError = useSelector(networkErrorSelector);
 
     useEffect(() => {
         dispatch(AppActions.FeedActions.fetchFeed());
@@ -53,6 +58,14 @@ const NewsFeed: FunctionComponent = () => {
             />
 
             <Divider />
+
+            {networkError && (
+                <Layout style={styles.centrify}>
+                    <Text style={styles.networkErrorText}>
+                        Ошибка сети
+                    </Text>
+                </Layout>
+            )}
 
             {isLoading
                 ? (<Loader />)
@@ -83,6 +96,9 @@ const NewsFeed: FunctionComponent = () => {
 };
 
 const styles = StyleSheet.create({
+    networkErrorText: {
+        color: '#FF0000',
+    },
     cardHeaderText: {
         fontSize: 16,
         fontWeight: 'bold',

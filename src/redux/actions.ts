@@ -24,13 +24,13 @@ export namespace AppActions {
             Promise<void>,
             IAppState,
             null,
-            AppActionInterfaces.FeedActionsInterfaces.IUpdateFeed
+            AppActionInterfaces.FeedActionsInterfaces.IUpdateFeed | AppActionInterfaces.NetworkErrorActionsInterfaces.IUpdateNetworkError
         > => {
             return async (dispatch) => {
                 const { error, newsfeed } = await NewsServices.fetchNewsFeed();
 
                 if (error) {
-                    // set network error
+                    dispatch(AppActions.NetworkErrorActions.updateNetworkError(true));
                 } else {
                     dispatch(updateFeed(newsfeed));
                 }
@@ -44,13 +44,13 @@ export namespace AppActions {
             Promise<void>,
             IAppState,
             null,
-            AppActionInterfaces.FeedActionsInterfaces.IUpdateFeed
+            AppActionInterfaces.FeedActionsInterfaces.IUpdateFeed | AppActionInterfaces.NetworkErrorActionsInterfaces.IUpdateNetworkError
         > => {
             return async (dispatch, getState) => {
                 const { error, newsfeed } = await NewsServices.fetchNewsFeed();
 
                 if (error) {
-                    // set network error
+                    dispatch(AppActions.NetworkErrorActions.updateNetworkError(true));
                 } else {
                     const { feed: { items: prevItems } } = getState();
 
@@ -100,5 +100,14 @@ export namespace AppActions {
             type: AppActionTypes.OpenedFeedItemActions.UPDATE,
             payload: openedFeedItem,
         })
+    }
+
+    export namespace NetworkErrorActions {
+        export const updateNetworkError = (
+            networkError: boolean,
+        ): AppActionInterfaces.NetworkErrorActionsInterfaces.IUpdateNetworkError => ({
+            type: AppActionTypes.NetworkErrorActions.UPDATE,
+            payload: networkError,
+        });
     }
 }

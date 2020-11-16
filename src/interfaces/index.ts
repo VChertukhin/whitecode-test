@@ -29,6 +29,11 @@ export namespace AppActionTypes {
         // update openedFeedItem in store
         UPDATE = '@OPENED_FEED_ITEM/UPDATE',
     }
+
+    export enum NetworkErrorActions {
+        // update networkError in store
+        UPDATE = '@NETWORK_ERROR/UPDATE',
+    }
 };
 
 export namespace AppActionInterfaces {
@@ -43,6 +48,13 @@ export namespace AppActionInterfaces {
         export interface IUpdateOpenedFeedItem {
             type: AppActionTypes.OpenedFeedItemActions.UPDATE;
             payload: FeedItem | null;
+        }
+    }
+
+    export namespace NetworkErrorActionsInterfaces {
+        export interface IUpdateNetworkError {
+            type: AppActionTypes.NetworkErrorActions.UPDATE;
+            payload: boolean;
         }
     }
 }
